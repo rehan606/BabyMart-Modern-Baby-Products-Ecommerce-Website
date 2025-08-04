@@ -4,8 +4,13 @@ const loginUser = (req, res) => {
     res.send("Login Controller is working");
 }; 
 
-const registerUser = (req, res) => {
-    res.send("Register Controller is working");
-}
+const registerUser = asyncHandler(async(req, res) => {
+    const {name, email, password, role} = req.body;
+    console.log(name, email, password, role);
+
+    res.send("Register Controller is working")
+})
+
+
 
 export { loginUser , registerUser};

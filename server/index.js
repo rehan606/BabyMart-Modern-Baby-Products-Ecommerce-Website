@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 8000;
 
 // Increase the body size limit for JSON and URL-encoded payloads
 
+// 
+app.use(express.json());
+
 // Routes
 app.use("/api/auth", authRoutes)
 
