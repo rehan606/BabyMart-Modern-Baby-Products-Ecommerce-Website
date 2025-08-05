@@ -10,6 +10,10 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true,
     },
+    password: {
+        type: String,
+        required: true,
+    },
     avatar: {
         type: String,
         default: "https://www.gravatar.com/avatar/0000000000000000000000000000000?d=mp&f=y",
@@ -51,6 +55,13 @@ const userSchema = mongoose.Schema({
 },{
     timestamps: true,
 });
+
+
+// Match user entered password to hashed password in database
+
+// Encrypt password using bcryptjs
+
+// Ensure only address is default
 
 const User = mongoose.model("User", userSchema);
 export default User;
