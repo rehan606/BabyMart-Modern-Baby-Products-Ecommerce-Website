@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import connectDB from "./config/db.js";
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -9,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
+connectDB();
 
 // CORS configuration
 
