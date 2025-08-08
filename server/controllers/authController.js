@@ -59,7 +59,7 @@ const loginUser = asyncHandler (async(req, res) => {
 
 // Get user profile
 const getUserProfile = asyncHandler(async(req, res) => {
-    const user = await User.findById(req, user._id);
+    const user = await User.findById(req.body._id);
 
     // Check if user exists
     if(user) {
