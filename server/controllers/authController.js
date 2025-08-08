@@ -33,9 +33,8 @@ const registerUser = asyncHandler(async(req, res) => {
     res.send("Register Controller is working")
 })
 
-// Login user
+// User Login
 // POST /api/auth/login
-
 const loginUser = asyncHandler (async(req, res) => {
     const {email, password} = req.body;
 
@@ -58,4 +57,27 @@ const loginUser = asyncHandler (async(req, res) => {
     }
 })
 
-export { loginUser , registerUser};
+// Get user profile
+const getUserProfile = asyncHandler(async(req, res) => {
+    const user = await User.findById(req, user._id);
+
+    // Check if user exists
+    if(user) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar,
+            role: user.role,
+            addresses: user.addresses || [],
+        });
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+})
+
+// Log out user
+
+
+export { registerUser, loginUser , getUserProfile};
