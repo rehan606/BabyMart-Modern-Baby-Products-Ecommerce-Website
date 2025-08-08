@@ -82,6 +82,10 @@ const getUserProfile = asyncHandler(async(req, res) => {
 const logoutUser = asyncHandler(async(req, res) => {
     // Invalidate the token on the client side
     res.json({ success:true, message: "User logged out successfully" });
+
+    // Make token expired upon logout
+    req.user = null;
+    res.cookie("token", "", { expires: new Date(0) });  
 }); 
 
 
