@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import generateToken from "../utils/generateToken.js";
 
 
 // Register a new user
@@ -49,6 +50,7 @@ const loginUser = asyncHandler (async(req, res) => {
             avatar: user.avatar,
             role: user.role,
             addresses: user.addresses || [],
+            token: generateToken(user._id), // gererateToken must be imported from utils
         });
     } else {
         res.status(401);
