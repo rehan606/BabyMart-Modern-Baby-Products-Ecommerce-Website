@@ -78,6 +78,11 @@ const getUserProfile = asyncHandler(async(req, res) => {
 })
 
 // Log out user
+// POST /api/auth/logout
+const logoutUser = asyncHandler(async(req, res) => {
+    // Invalidate the token on the client side
+    res.json({ success:true, message: "User logged out successfully" });
+}); 
 
 
-export { registerUser, loginUser , getUserProfile};
+export { registerUser, loginUser , getUserProfile, logoutUser,  };

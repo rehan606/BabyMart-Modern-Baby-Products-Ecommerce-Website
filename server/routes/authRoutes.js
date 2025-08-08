@@ -1,7 +1,7 @@
 // File: server/routes/authRoutes.js
 
 import express from "express"
-import { getUserProfile, loginUser, registerUser } from "../controllers/authController.js";
+import { getUserProfile, loginUser, logoutUser, registerUser } from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -10,6 +10,7 @@ const router = express.Router();
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.get("/profile", protect, getUserProfile);
+router.post("/logout", protect, logoutUser);
 
 
 
