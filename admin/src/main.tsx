@@ -6,13 +6,18 @@ import {
 } from "react-router";
 
 import './index.css'
-import App from './App.tsx'
+import App from './App.tsx';
+import Login from './pages/Login.tsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

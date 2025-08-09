@@ -1,3 +1,5 @@
+import { Link } from "react-router"
+import CommonLayout from "./components/common/CommonLayout"
 import { Button } from "./components/ui/button"
 
 
@@ -5,13 +7,16 @@ function App() {
   
 
   return (
-    <div className="p-10">
-      <h1>Welcome to the Admin Dashboard</h1>
-      <p>This is a simple admin dashboard built with React.</p>
-      <p>Feel free to customize it as per your requirements.</p>
+    <CommonLayout>
+      <div className="p-10">
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p>This is a simple admin dashboard built with React.</p>
+        <p>Feel free to customize it as per your requirements.</p>
+        <Link to={"/login"}className="bg-gray-700 w-20 px-4 py-2 text-white mr-5">Login</Link>
 
-      <Button className="bg-red-700 ">Click Me</Button>
-    </div>
+        <Button >Click Me</Button>
+      </div>
+    </CommonLayout>
   )
 }
 
