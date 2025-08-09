@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="h-screen flex bg-background ">
       <Sidebar/>
-      <div className={cn("flex flex-col bg-gray-200 flex-1 max-w-[--breakpoint-2xl] hoverEffect ")}>
+      <div className={cn("flex flex-col bg-gray-200 flex-1 max-w-[--breakpoint-2xl] hoverEffect ml-64")}>
         <Header/>
 
         <main>
