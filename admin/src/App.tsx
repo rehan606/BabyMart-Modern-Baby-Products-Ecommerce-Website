@@ -7,10 +7,10 @@ import { cn } from "./lib/utils";
 
 function App() {
   // Simulating authentication status
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   // Redirect to login if not authenticated
   if(!isAuthenticated){
-    return <Navigate to={"/login"} replace={true} />
+    return <Navigate to={"/login"}  />;
   }
 
   return (

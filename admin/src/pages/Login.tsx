@@ -4,14 +4,10 @@ import { Link } from "react-router"
 
 const Login = () => {
   return (
-    <CommonLayout>
-    <div>
-      <h1>Login Page</h1>
-      <Link to={"/"} className="bg-gray-700 w-20 px-4 py-2 text-white">Back to Home</Link>
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
+      <div>
+        
+      </div>
     </div>
-    </CommonLayout>
   )
 }
-
-export default Login
-
