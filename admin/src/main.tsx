@@ -9,6 +9,7 @@ import './index.css'
 import App from './App.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
+import DashboardPage from './pages/DashboardPage.tsx';
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [{
+      path: "/dashboard",
+      element: <DashboardPage/>,
+    }]
   },
 ]);
 

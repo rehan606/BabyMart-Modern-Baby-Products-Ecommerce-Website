@@ -1,6 +1,8 @@
-import { Link, Navigate,} from "react-router"
-import CommonLayout from "./components/common/CommonLayout"
-import { Button } from "./components/ui/button"
+import { Navigate, Outlet,} from "react-router"
+import Sidebar from "./components/dashboard/Sidebar";
+import Header from "./components/common/Header";
+import { cn } from "./lib/utils";
+
 
 
 function App() {
@@ -12,16 +14,16 @@ function App() {
   }
 
   return (
-    <CommonLayout>
-      <div className="p-10">
-        <h1>Welcome to the Admin Dashboard</h1>
-        <p>This is a simple admin dashboard built with React.</p>
-        <p>Feel free to customize it as per your requirements.</p>
-        <Link to={"/login"}className="bg-gray-700 w-20 px-4 py-2 text-white mr-5">Login</Link>
+    <div className="h-screen flex bg-background ">
+      <Sidebar/>
+      <div className={cn("flex flex-col bg-gray-200 flex-1 max-w-[--breakpoint-2xl] hoverEffect ")}>
+        <Header/>
 
-        <Button >Click Me</Button>
+        <main>
+          <Outlet/>
+        </main>
       </div>
-    </CommonLayout>
+    </div>
   )
 }
 
