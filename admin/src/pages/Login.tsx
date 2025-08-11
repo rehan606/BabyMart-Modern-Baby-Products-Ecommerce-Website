@@ -1,7 +1,21 @@
-import { Card, CardHeader, CardTitle , CardDescription,  } from "@/components/ui/card";
-import { motion } from "motion/react"
+import { Card, CardHeader, CardTitle , CardDescription, CardContent,  } from "@/components/ui/card";
+import { Form, FormField, FormLabel } from "@/components/ui/form";
+import { motion } from "motion/react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { z } from "zod";
+
+
+type FormData=z.infer<typeof></typeof>
 
 const Login = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+
+  const form = useForm<FromData
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
       <motion.div 
@@ -23,15 +37,15 @@ const Login = () => {
             </motion.div>
           </CardHeader>
 
-          {/* <CardContent>
-            <Form>
+          <CardContent>
+            <Form {...form}>
               <form>
-                <FromField>
-
-                <FromField>
+                <FormField>
+                  <FormLabel></FormLabel>
+                </FormField>
               </form>
             </Form>
-          </CardContent> */}
+          </CardContent> 
           
         </Card>
       </motion.div>
