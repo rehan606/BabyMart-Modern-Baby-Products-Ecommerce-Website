@@ -1,20 +1,24 @@
 import { Card, CardHeader, CardTitle , CardDescription, CardContent,  } from "@/components/ui/card";
 import { Form, FormField, FormLabel } from "@/components/ui/form";
+import type { loginSchema } from "@/lib/validation";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { z } from "zod";
+import {} from "hook"
 
 
-type FormData=z.infer<typeof></typeof>
+type FormData=z.infer<typeof loginSchema>;
 
 const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
-  const form = useForm<FromData
+  const form = useForm<FromData>({
+    resolver:zodResolve
+  });
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
