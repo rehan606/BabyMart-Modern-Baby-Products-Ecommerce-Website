@@ -1,12 +1,15 @@
-import { Card, CardHeader, CardTitle , CardDescription, CardContent,  } from "@/components/ui/card";
-import { Form, FormField, FormLabel } from "@/components/ui/form";
-import type { loginSchema } from "@/lib/validation";
+import { Card, CardHeader, CardTitle , CardDescription, CardContent, CardFooter,  } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { loginSchema } from "@/lib/validation.ts";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { z } from "zod";
-import {} from "hook"
+import { zodResolver } from '@hookform/resolvers/zod' ;
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { LogIn } from "lucide-react";
 
 
 type FormData=z.infer<typeof loginSchema>;
@@ -16,8 +19,14 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
-  const form = useForm<FromData>({
-    resolver:zodResolve
+  const onSubmit = async () => {}
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   return (
@@ -43,13 +52,44 @@ const Login = () => {
 
           <CardContent>
             <Form {...form}>
-              <form>
-                <FormField>
-                  <FormLabel></FormLabel>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField control={form.control} name="email" render={({field})=>(
+                  <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="you@example.com" type="emial" disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
+                      </FormControl>
+                      <FormMessage className="text-red-500"/>
+                  </FormItem>
+                )} >
                 </FormField>
+
+                {/* Password field  */}
+
+                <FormField control={form.control} name="password" render={({field})=>(
+                  <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="******" type="password" disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
+                      </FormControl>
+                      <FormMessage className="text-red-500"/>
+                  </FormItem>
+                )} >
+                </FormField>
+
+                {/* Button  */}
+                <div>
+                  <Button className="w-full bg-indigo-600 hover:bg-indigo-700 hoverEffect text-white font-semibold py-2 rounded-lg">
+                    <LogIn/> Sign In
+                  </Button>
+                </div>
               </form>
             </Form>
           </CardContent> 
+
+          <CardFooter className="justify-center">
+            <p className="text-sm text-gray-500">Don't have an account <Link to={"/register"} className="text-indigo-600 hover:text-indigo-800 hoverEffect hover:underline font-semibold"> Sign Up</Link> </p>
+          </CardFooter>
           
         </Card>
       </motion.div>
