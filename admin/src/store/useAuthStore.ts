@@ -30,7 +30,14 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
     token: null,
     isAuthenticated: false,
     login:async (credentials) => {},
-    register: async (userData) => {},
+    register: async (userData) => {
+        try {
+            await api 
+        } catch (error) {
+            console.error("Registration error:", error);
+            throw error; 
+        }
+    },
     logout: () => {},
     checkIsAdmin: () => {},
 
