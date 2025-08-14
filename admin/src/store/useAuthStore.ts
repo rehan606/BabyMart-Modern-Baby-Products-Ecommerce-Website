@@ -26,7 +26,14 @@ type AuthState = {
 };
 
 const useAuthStore = create<AuthState>() (persist((set, get)=>({
-    user: null
+    user: null,
+    token: null,
+    isAuthenticated: false,
+    login:async (credentials) => {},
+    register: async (userData) => {},
+    logout: () => {},
+    checkIsAdmin: () => {},
+
 }), {
     name: "auth-storage"
 }
