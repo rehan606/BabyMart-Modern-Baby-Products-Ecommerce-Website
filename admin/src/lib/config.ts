@@ -1,3 +1,4 @@
+
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 
@@ -76,3 +77,20 @@ export const ADMIN_API_ENDPOINTS={
 
     // Categories
 } as const ;
+
+
+// Helper function to build query parameters
+
+export const buildAdminQueryParams=(params:Record<string, string | number | boolean | undefined>): string => {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([Key,value])=>{
+        if(value !== undefined && value !== null && value !== ""){
+            searchParams.append(key, String(value));
+        }
+    });
+
+    const queryString = searchParams.toString();
+    return queryString ? `?${queryString}` : "";
+};
+
+export default adminApi; 
