@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios"
+import axios, { AxiosInstance, AxiosResponse } from "axios";
+
 
 // Configuration utility for Admin API
 interface AdminApiConfig {
@@ -25,7 +26,7 @@ export const getAdminApiConfig=():AdminApiConfig=>{
 
 // Create configured axios instance
 
-const createApiInstance = ():AxiosInstance=>{
+const createApiInstance = (): AxiosInstance => {
     const {baseURL} =  getAdminApiConfig()
     const instance = axios.create({
         baseURL,
@@ -37,4 +38,41 @@ const createApiInstance = ():AxiosInstance=>{
     });
 
     // Add request interceptor to include auth token
-}
+    instance.interceptors.request.use((config)=>{
+        // Get Token from localStorage ( Zustand Persist stores it there)
+        const authData = localStorage.getItem("auth-storage");
+        if(authData){
+            try {
+                const parseData = JSON.parse(authData)
+                const token = parseData.state?.token;
+
+                if(token){
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+            } catch (error) {
+                console.error("Error parsing auth data:", error)
+            }
+        }
+        return config;
+    },(error) => {
+        return Promise.reject(error);
+    })
+};
+
+// Create and Export the configure axios instance
+export const adminApi = createApiInstance();
+
+// Admin API endpoints
+
+export const ADMIN_API_ENDPOINTS={
+    // Auth
+    REGISTER: "/auth/register",
+    LOGIN: "/auth/login",
+    LOGOUT: "/auth/logout",
+
+    // User
+
+    // Products
+
+    // Categories
+} as const ;
