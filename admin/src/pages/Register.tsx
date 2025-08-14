@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle , CardDescription, CardContent, CardFooter,  } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { loginSchema } from "@/lib/validation.ts";
+import { registerSchema } from "@/lib/validation.ts";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,23 +9,37 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod' ;
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { LogIn } from "lucide-react";
+import { UserPlus } from "lucide-react";
+
+type FormData = z.infer<typeof registerSchema>
 
 const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   
-  const onSubmit = async () => {}
+  
   
   const form = useForm<FormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      role: "user",
     },
   });
 
+  // Form submit
+  const onSubmit = async (data:FormData) => {
+    setIsLoading(true);
+
+    try {
+      
+    } catch (error) {
+      console.log("Failed to register", error)
+    }
+  }
 
 
   return (
@@ -58,7 +72,7 @@ const Register = () => {
                   <FormItem>
                       <FormLabel className="text-sm font-medium text-gray-700">Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your name" type="name" disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
+                        <Input placeholder="Enter your name" type="text"  disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
                       </FormControl>
                       <FormMessage className="text-red-500"/>
                   </FormItem>
@@ -70,7 +84,7 @@ const Register = () => {
                   <FormItem>
                       <FormLabel className="text-sm font-medium text-gray-700">Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="you@example.com" type="emial" disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
+                        <Input placeholder="you@example.com" type="email" disabled={isLoading} className="border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-800 placeholder:text-sm hoverEffect" {...field}/>
                       </FormControl>
                       <FormMessage className="text-red-500"/>
                   </FormItem>
@@ -90,10 +104,24 @@ const Register = () => {
                 )} >
                 </FormField>
 
+
+                {/* Role field  */}
+
+                <FormField control={form.control} name="role" render={()=>(
+                  <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">Role</FormLabel>
+                      <FormControl>
+                        <Input placeholder="User" type="text" disabled={isLoading} className="border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed " />
+                      </FormControl>
+                      <FormMessage className="text-red-500"/>
+                  </FormItem>
+                )} >
+                </FormField>
+
                 {/* Button  */}
                 <div>
                   <Button className="w-full bg-indigo-600 hover:bg-indigo-700 hoverEffect text-white font-semibold py-2 rounded-lg">
-                    <LogIn/> Sign up
+                    <UserPlus/> Sign up
                   </Button>
                 </div>
               </form>
