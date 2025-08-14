@@ -21,4 +21,20 @@ export const getAdminApiConfig=():AdminApiConfig=>{
         baseURL: `${apiUrl}/api`,
         isProduction,
     };
+};
+
+// Create configured axios instance
+
+const createApiInstance = ():AxiosInstance=>{
+    const {baseURL} =  getAdminApiConfig()
+    const instance = axios.create({
+        baseURL,
+        headers:{
+            "Content-Type": "application/json",
+        },
+        withCredentials:true,
+        timeout:30000, // 30 second timeout
+    });
+
+    // Add request interceptor to include auth token
 }
