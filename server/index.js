@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import connectDB from "./config/db.js";
+import cors from "cors";
 
 
 // Load environment variables from .env file
@@ -11,9 +12,27 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
-connectDB();
+connectDB(); 
 
 // CORS configuration
+const allowedOrigins = [process.env.ADMIN_URL].filter(Boolean); // Remove any undefine values
+
+app.use(cors({
+  origin: function(origin,callback){
+    // Allow requests with no origin ( like mobile apps or url request)
+    if (!origin) return callback(null, true);
+    
+    // In development , allow all origins for easier testing
+    if(process.env.NODE_ENV === "development") {
+      return callback(null, true);
+    }
+
+    //
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}))
 
 // Increase the body size limit for JSON and URL-encoded payloads
 

@@ -1,6 +1,6 @@
 
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { error } from "console";
+
 
 
 // Configuration utility for Admin API

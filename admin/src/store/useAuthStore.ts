@@ -1,3 +1,4 @@
+import { api } from '@/lib/api';
 import { create } from 'zustand';
 import { persist } from "zustand/middleware"; // persist for local storage
 
@@ -32,7 +33,7 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
     login:async (credentials) => {},
     register: async (userData) => {
         try {
-            await api 
+            await api.post("/auth/register", userData);
         } catch (error) {
             console.error("Registration error:", error);
             throw error; 
@@ -44,4 +45,6 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
 }), {
     name: "auth-storage"
 }
-))
+));
+export default useAuthStore
+

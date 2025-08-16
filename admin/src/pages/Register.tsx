@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod' ;
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
+import useAuthStore from "@/store/useAuthStore";
 
 type FormData = z.infer<typeof registerSchema>
 
@@ -17,6 +18,7 @@ const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const { register } = useAuthStore()
   
   
   
@@ -35,7 +37,9 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      
+      await register(data) 
+      console.log("Register successfully")
+      navigate('/login');
     } catch (error) {
       console.log("Failed to register", error)
     }
