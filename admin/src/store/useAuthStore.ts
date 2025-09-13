@@ -30,7 +30,25 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
     user: null,
     token: null,
     isAuthenticated: false,
-    login:async (credentials) => {},
+
+    // Login
+    login:async (credentials) => {
+        try {
+            const response = await api.post("/auth/login", credentials);
+            if (response.data.token) {
+                set({
+                    user: response.data,
+                    token: response.data.token,
+                    isAuthenticated: true,
+                });
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            throw error; 
+        }
+    },
+
+    //Register
     register: async (userData) => {
         try {
             await api.post("/auth/register", userData);
@@ -39,12 +57,16 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
             throw error; 
         }
     },
-    logout: () => {},
+
+    // Logout
+    logout: () => {
+        
+    },
     checkIsAdmin: () => {},
 
 }), {
     name: "auth-storage"
 }
 ));
-export default useAuthStore
+export default useAuthStore ;
 

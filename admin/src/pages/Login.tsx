@@ -16,11 +16,13 @@ type FormData=z.infer<typeof loginSchema>;
 
 const Login = () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const navigate = useNavigate();
 
-  const onSubmit = async () => {}
-
+  const onSubmit = async () => {}; 
+ 
   const form = useForm<FormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
