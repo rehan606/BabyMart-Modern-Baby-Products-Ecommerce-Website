@@ -35,10 +35,10 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
     login:async (credentials) => {
         try {
             const response = await api.post("/auth/login", credentials);
-            if (response.data.token) {
+            if (response.data) {
                 set({
                     user: response.data,
-                    token: response.data.token,
+                    // token: response.data.token,
                     isAuthenticated: true,
                 });
             }
@@ -66,6 +66,8 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
             isAuthenticated: false,
         });
     },
+
+    // Check Admin
     checkIsAdmin: () => {
         const { user } = get();
         return user?.role === "admin";

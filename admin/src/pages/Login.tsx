@@ -20,7 +20,7 @@ const Login = () => {
   
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
-  const {login} = useAuthStore();
+  const {login, user} = useAuthStore();
 
   
  
@@ -37,8 +37,14 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+
+      // const loginUser = await login(data);
       await login(data);
       navigate("/dashboard");
+      
+      
+
+      
     } catch (error) {
       console.error("Login failed:", error);
     } finally {

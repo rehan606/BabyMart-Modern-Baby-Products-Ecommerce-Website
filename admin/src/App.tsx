@@ -2,12 +2,13 @@ import { Navigate, Outlet,} from "react-router"
 import Sidebar from "./components/dashboard/Sidebar";
 import Header from "./components/common/Header";
 import { cn } from "./lib/utils";
+import useAuthStore from "./store/useAuthStore";
 
 
 
 function App() {
   // Simulating authentication status
-  const isAuthenticated = false;
+  const { isAuthenticated } = useAuthStore();
   // Redirect to login if not authenticated
   if(!isAuthenticated){
     return <Navigate to={"/login"}  />;
