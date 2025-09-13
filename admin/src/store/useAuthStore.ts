@@ -60,9 +60,16 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
 
     // Logout
     logout: () => {
-        
+        set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+        });
     },
-    checkIsAdmin: () => {},
+    checkIsAdmin: () => {
+        const { user } = get();
+        return user?.role === "admin";
+    },
 
 }), {
     name: "auth-storage"
