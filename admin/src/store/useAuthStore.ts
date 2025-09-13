@@ -35,10 +35,12 @@ const useAuthStore = create<AuthState>() (persist((set, get)=>({
     login:async (credentials) => {
         try {
             const response = await api.post("/auth/login", credentials);
-            if (response.data) {
+            console.log("response", response)
+
+            if (response.data.token ) {
                 set({
                     user: response.data,
-                    // token: response.data.token,
+                    token: response.data.token,
                     isAuthenticated: true,
                 });
             }

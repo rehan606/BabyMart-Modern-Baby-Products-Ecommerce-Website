@@ -37,11 +37,10 @@ const registerUser = asyncHandler(async(req, res) => {
 // POST /api/auth/login
 const loginUser = asyncHandler (async(req, res) => {
     const {email, password} = req.body;
-    console.log("reqBody", req.body)
 
     // Check if user exists
     const user = await User.findOne({ email });
-    console.log("User", user);
+   
 
     if(user && user.matchPassword(password)) {
         res.json({
