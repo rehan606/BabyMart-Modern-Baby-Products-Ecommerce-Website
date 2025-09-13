@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle , CardDescription, CardContent, CardFooter,
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { loginSchema } from "@/lib/validation.ts";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { z } from "zod";
@@ -10,18 +10,19 @@ import { zodResolver } from '@hookform/resolvers/zod' ;
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
+import useAuthStore from "@/store/useAuthStore";
 
 
 type FormData=z.infer<typeof loginSchema>;
 
 const Login = () => {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
   const [isLoading, setIsLoading] = useState(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
+  const {login} = useAuthStore();
 
-  const onSubmit = async () => {}; 
+  
  
   const form = useForm<FormData>({
     resolver: zodResolver(loginSchema),
@@ -30,6 +31,20 @@ const Login = () => {
       password: "",
     },
   });
+
+
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+
+    try {
+      await login(data);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }; 
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
