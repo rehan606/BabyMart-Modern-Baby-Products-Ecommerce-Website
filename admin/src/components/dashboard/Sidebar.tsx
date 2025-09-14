@@ -80,7 +80,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
             onClick={logout} 
             variant={"outline"} 
             size={open ? "default" : "icon"}
-            className="w-full border-red-500/30 hover:bg-red-600/20 hover:border-red-400/50 text-red-400 transition-colors bg-red-600/10 backdrop-blur-sm">
+            className="w-full border-red-500/30 hover:bg-red-600/20 hover:border-red-400/50 text-red-400 transition-colors bg-red-600/10 backdrop-blur-sm hover:text-white hoverEffect">
             <LogOut size={16} className={cn("mr-2", !open && "mr-0")}/>
             {open && "Logout"}
           </Button>
