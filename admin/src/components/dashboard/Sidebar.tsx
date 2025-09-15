@@ -2,13 +2,37 @@ import { cn } from "@/lib/utils"
 import useAuthStore from "@/store/useAuthStore";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence  } from "motion/react";
-import { ChevronLeft , ChevronRight, LayoutDashboard, Users, ShoppingBag, Tag, Bookmark, LogOut, Layers, Package, User, FileText, } from "lucide-react";
+import { ChevronLeft , ChevronRight, LayoutDashboard, Users, ShoppingBag, Tag, Bookmark, LogOut, Layers, Package, User, FileText, Settings, } from "lucide-react";
+import { NavLink } from "react-router";
 
 interface Props{
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
+
+type NavItemProps = {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+  open: boolean;
+  end?: boolean;
+
+};
+
+const navigationItems = [
+  { to: "/dashboard", icon: <LayoutDashboard size={16} />, label: "Dashboard", end: true },
+  { to: "/dashboard/account", icon: <User size={16} />, label: "Account", }, 
+  { to: "/dashboard/users", icon: <Users size={16} />, label: "Users",  },
+  { to: "/dashboard/orders", icon: <Package size={16} />, label: "Orders",  },
+  { to: "/dashboard/invoice", icon: <FileText size={16} />, label: "Invoice",  },
+  { to: "/dashboard/banners", icon: <Layers size={16} />, label: "Banners",  },
+  { to: "/dashboard/products", icon: <ShoppingBag size={16} />, label: "Products", },
+  { to: "/dashboard/categories", icon: <Tag size={16} />, label: "Categories",  },
+  { to: "/dashboard/reports", icon: <FileText size={16} />, label: "Reports",  },
+  { to: "/dashboard/brands", icon: <Bookmark size={16} />, label: "Brands",  },
+  { to: "/dashboard/settings", icon: <Settings size={16} />, label: "Settings",  },
+];
 
 const Sidebar = ({ open, setOpen }: Props) => {
   const { user, logout} = useAuthStore();
@@ -22,7 +46,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
       <div className="flex items-center justify-between p-4 h-16 bg-gradient-to-r from-[#29beb3] via-slate-700 to-[#a96bde] border-b border-slate-600/50">
         <motion.div 
           initial={{ opacity: open ? 1 : 0, width: open ? "auto" : 0}}
-          initial={{ opacity: open ? 1 : 0, width: open ? "auto" : 0}}
+          animate={{ opacity: open ? 1 : 0, width: open ? "auto" : 0}}
           transition={{ duration: 0.2}}
           className={cn("flex items-center overflow-hidden", open ? "w-auto opacity-100" : "opacity-0")}
           >
@@ -44,8 +68,24 @@ const Sidebar = ({ open, setOpen }: Props) => {
         </motion.div>
       </div>
 
+
+
+
       {/* Sidebar content */}
-      <div className="flex flex-col gap-1 flex-1 p-3 bg-gradient-to-b from-slate-900 to-slate-800/50">Middle Menu Item</div>
+      <div className="flex flex-col gap-1 flex-1 p-3 bg-gradient-to-b from-slate-900 to-slate-800/50">
+        {navigationItems?.map((item) =>(
+          <NavItem 
+            key={item.to} 
+            to={item.to} 
+            icon={item.icon} 
+            label={item.label} 
+            open={open} 
+            end={item.end} />
+        ))}
+      </div>
+
+
+
 
       {/* Sidebar Footer */}
       <div className="p-4 border-t border-slate-600/50  bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800">
@@ -89,6 +129,13 @@ const Sidebar = ({ open, setOpen }: Props) => {
 
     </motion.aside>
   )
+};
+
+// NavLink ITems Component
+
+ 
+function NavItem({ to, icon, label, open, end }: NavItemProps) {
+  return <NavLink to={to}>{icon}{label}</NavLink>
 }
 
 export default Sidebar
