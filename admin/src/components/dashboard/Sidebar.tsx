@@ -26,12 +26,12 @@ const navigationItems = [
   { to: "/dashboard/account", icon: <User size={16} />, label: "Account", }, 
   { to: "/dashboard/users", icon: <Users size={16} />, label: "Users",  },
   { to: "/dashboard/orders", icon: <Package size={16} />, label: "Orders",  },
-  { to: "/dashboard/invoice", icon: <FileText size={16} />, label: "Invoice",  },
+  { to: "/dashboard/invoices", icon: <FileText size={16} />, label: "Invoice",  },
   { to: "/dashboard/banners", icon: <Layers size={16} />, label: "Banners",  },
   { to: "/dashboard/products", icon: <ShoppingBag size={16} />, label: "Products", },
   { to: "/dashboard/categories", icon: <Tag size={16} />, label: "Categories",  },
-  { to: "/dashboard/reports", icon: <FileText size={16} />, label: "Reports",  },
   { to: "/dashboard/brands", icon: <Bookmark size={16} />, label: "Brands",  },
+  { to: "/dashboard/reports", icon: <FileText size={16} />, label: "Reports",  },
   { to: "/dashboard/settings", icon: <Settings size={16} />, label: "Settings",  },
 ];
 
