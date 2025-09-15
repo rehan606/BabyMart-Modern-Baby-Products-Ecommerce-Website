@@ -18,6 +18,8 @@ import Banners from './pages/Banners.tsx';
 import Products from './pages/Products.tsx';
 import Categories from './pages/Categories.tsx';
 import Brands from './pages/Brands.tsx';
+import Settings from './pages/Settings.tsx';
+import Reports from './pages/Reports.tsx';
 
 
 const router = createBrowserRouter([
@@ -69,6 +71,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/brands",
         element: <Brands/>,
+      },
+      {
+        path: "/dashboard/reports",
+        element: <Reports/>,
+      },
+      {
+        path: "/dashboard/settings",
+        element: <Settings/>,
       },
     ]
   },
