@@ -3,7 +3,7 @@ import useAuthStore from "@/store/useAuthStore";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence  } from "motion/react";
 import { ChevronLeft , ChevronRight, LayoutDashboard, Users, ShoppingBag, Tag, Bookmark, LogOut, Layers, Package, User, FileText, Settings, } from "lucide-react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 interface Props{
   open: boolean;
@@ -17,11 +17,12 @@ type NavItemProps = {
   label: string;
   open: boolean;
   end?: boolean;
+  pathname: string;
 
 };
 
 const navigationItems = [
-  { to: "/dashboard", icon: <LayoutDashboard size={16} />, label: "Dashboard", end: true },
+  { to: "/dashboard", icon: <LayoutDashboard size={16} />, label: "Dashboard", end: true, },
   { to: "/dashboard/account", icon: <User size={16} />, label: "Account", }, 
   { to: "/dashboard/users", icon: <Users size={16} />, label: "Users",  },
   { to: "/dashboard/orders", icon: <Package size={16} />, label: "Orders",  },
@@ -36,6 +37,10 @@ const navigationItems = [
 
 const Sidebar = ({ open, setOpen }: Props) => {
   const { user, logout} = useAuthStore();
+  const {pathname} = useLocation();
+
+
+
   return (
     <motion.aside className={cn("fixed  inset-y-0 left-0 z-20 flex flex-col border-r border-r-slate-800/50 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 shadow-2xl hoverEffect text-white", open ? "w-64" : "w-20")}
     initial={{width:open ? 256 : 80}}
@@ -80,7 +85,9 @@ const Sidebar = ({ open, setOpen }: Props) => {
             icon={item.icon} 
             label={item.label} 
             open={open} 
-            end={item.end} />
+            end={item.end} 
+            pathname={pathname}
+            />
         ))}
       </div>
 
@@ -97,7 +104,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
           transition={{ duration: 0.3, delay: 0.2 }}
           className={cn("flex items-center gap-3 mb-4", open ? "justify-start" : "justify-center")}>
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#29beb3] to-[#a96bde] flex items-center justify-center text-white font-semibold overflow-hidden shadow-lg ring-2 ring-white/20">
-            {user?.avatar ? <img src={user?.avatar} alt="userImage" className="h-full w-full object-cover" /> : user?.name?.charArt(0).toUpperCase()}
+            {user?.avatar ? <img src={user?.avatar} alt="userImage" className="h-full w-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
           </div>
 
           <AnimatePresence>
@@ -134,8 +141,16 @@ const Sidebar = ({ open, setOpen }: Props) => {
 // NavLink ITems Component
 
  
-function NavItem({ to, icon, label, open, end }: NavItemProps) {
-  return <NavLink to={to}>{icon}{label}</NavLink>
+function NavItem({ to, icon, label, open, end, pathname }: NavItemProps) {
+  return ( 
+    <NavLink 
+      to={to} 
+      end={end}
+      className={cn("flex items-center p-2 rounded-xl text-sm font-medium hoverEffect gap-3 overflow-hidden text-white/80 hover:bg-gradient-to-r hover:from-slate-700/50 hover:to-slate-600/50 hover:text-white hover:shadow-lg hover:backdrop-blur-sm", pathname === to ? "bg-gradient-to-r from-[#29beb3]/20 to[#a96bde]/20 text-white shadow-lg shadow-[#29beb3]/20 sacle-105 ring-1 ring-[#29beb3]/30 border border-white/10 backdrop-blur-sm" : "text-slate-300 hover:scale-102" 
+      )}>
+        <span className={open ? "flex items-center justify-center " : "text-center  ml-2"}>{icon}</span>  {open && label}
+    </NavLink>
+  )
 }
 
 export default Sidebar

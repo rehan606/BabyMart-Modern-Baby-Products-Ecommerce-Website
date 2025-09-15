@@ -10,6 +10,7 @@ import App from './App.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import DashboardPage from './pages/DashboardPage.tsx';
+import Account from './pages/Account.tsx';
 
 
 const router = createBrowserRouter([
@@ -25,10 +26,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{
-      path: "/dashboard",
-      element: <DashboardPage/>,
-    }]
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardPage/>,
+      },
+      {
+        path: "/dashboard/account",
+        element: <Account/>,
+      },
+    ]
   },
 ]);
 
