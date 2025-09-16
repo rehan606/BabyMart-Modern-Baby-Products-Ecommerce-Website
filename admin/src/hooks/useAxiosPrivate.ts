@@ -2,7 +2,7 @@ import adminApi from "@/lib/config"
 import useAuthStore from "@/store/useAuthStore"
 import { useEffect } from "react"
 
-export const useAxiosPrivet = () => {
+export const useAxiosPrivate = () => {
     const {logout } = useAuthStore()
 
     useEffect(() => {
