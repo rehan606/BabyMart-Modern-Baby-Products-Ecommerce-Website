@@ -10,7 +10,7 @@ import { useState } from "react";
 function App() {
   // Simulating authentication status
   const { isAuthenticated } = useAuthStore();
-  const [sidebarOpen, setSidebarOpen] =  useState(true);
+  const [sidebarOpen, setSidebarOpen] =  useState(false);
 
 
 

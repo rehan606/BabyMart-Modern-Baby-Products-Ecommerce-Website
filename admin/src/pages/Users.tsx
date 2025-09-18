@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import useAuthStore from "@/store/useAuthStore";
 import { Plus, RefreshCw, Users2 } from "lucide-react";
 import { useEffect, useState } from "react"
-
+import { UserType } from "../../type";
 
 const Users = () => {
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
   const {checkIsAdmin} = useAuthStore();
@@ -60,7 +61,51 @@ const Users = () => {
       {/* Filters Skeleton */}
 
       {/* Table Skeleton  */}
-      
+      <div className="bg-white rounded-lg shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-semibold"> Avatar </TableHead>
+              <TableHead className="font-semibold"> Name </TableHead>
+              <TableHead className="font-semibold"> Email </TableHead>
+              <TableHead className="font-semibold"> Role </TableHead>
+              <TableHead className="font-semibold"> Created At </TableHead>
+              <TableHead className="font-semibold"> Actions </TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {users?.length > 0 ? (
+               
+                users?.map((user) => (
+                  <TableRow key={user?._id}>
+                    <TableCell>
+                      <div className="h-12 w-12 rounded-full overflow-hidden bg-blue-200 flex items-center justify-center text-blue-600 font-semibold shadow-sm">
+                        {!user?.avatar ?  <img src={user?.avatar} alt="userImage" className="h-full w-full object-cover rounded-full" /> : 
+                      <div className="h-full w-full object-cover rounded-full bg-gradient-to-br from-[#29beb3] to-[#a96bde] flex items-center justify-center text-white text-lg font-bold overflow-hidden shadow-lg ring-2 ring-white/20">
+                        {user?.name?.charAt(0).toUpperCase()}
+                      </div>
+                      }
+                      </div>
+                    </TableCell>
+                    <TableCell>{user?.name}</TableCell>
+                    <TableCell>{user?.email}</TableCell>
+                    <TableCell>{user?.role}</TableCell>
+                    <TableCell>{new Date(user?.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" className="mr-2">Edit</Button>
+                      <Button variant="destructive">Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+            ) : (
+            <div className="flex items-center justify-center py-10 font-semibold">
+              <h2 className="text-gray-600 text-center font-semibold">User Not Found</h2>
+            </div>
+            ) }
+          </TableBody>
+        </Table>
+      </div> 
 
     </div>
   )
