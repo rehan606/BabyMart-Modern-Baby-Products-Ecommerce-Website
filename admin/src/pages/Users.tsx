@@ -4,8 +4,9 @@ import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import useAuthStore from "@/store/useAuthStore";
 import { Edit, Eye, Plus, RefreshCw, Trash, Users2 } from "lucide-react";
 import { useEffect, useState } from "react"
-import { UserType } from "../../type";
+import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 const Users = () => {
 
@@ -50,7 +51,7 @@ const Users = () => {
 
 
 
-  return (
+  return ( 
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -60,7 +61,7 @@ const Users = () => {
         <div className="flex items-center gap-4">
           <div className="text-blue-600 flex items-center gap-1">
             <Users2 className="w-8 h-8 " />
-            <p className="text-2xl font-bold">{users?.length}</p>
+            <p className="text-2xl font-bold">{ users?.length}</p>
           </div>
           <Button variant={"outline"} className="border-blue-600 text-blue-600 hover:bg-blue-50 hoverEffect"> 
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -92,7 +93,7 @@ const Users = () => {
           </TableHeader>
 
           <TableBody>
-            {users?.length > 0 ? (
+            {users?.length > 0 ? ( 
                
                 users?.map((user) => (
                   <TableRow key={user?._id}>
