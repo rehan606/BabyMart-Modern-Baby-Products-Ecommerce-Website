@@ -14,7 +14,7 @@ const Header = () => {
           </Button>
           <div className="hidden md:block">
             {user && <p className="text-sm font-medium"> {user.name}</p>}
-            {user && <p className="text-xs text-muted-foreground capitalize">{user.role}</p>}
+            {user && <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>}
           </div>
 
           <div className="w-9 h-9 rounded-full bg-primary/10  flex items-center justify-center overflow-hidden text-primary font-semibold border border-border">

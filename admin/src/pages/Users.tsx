@@ -56,6 +56,12 @@ const Users = () => {
           )}
         </div>
       </div>
+
+      {/* Filters Skeleton */}
+
+      {/* Table Skeleton  */}
+      
+
     </div>
   )
 }
