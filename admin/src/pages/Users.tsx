@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import useAuthStore from "@/store/useAuthStore";
-import { Plus, RefreshCw, Users2 } from "lucide-react";
+import { Edit, Eye, Plus, RefreshCw, Trash, Users2 } from "lucide-react";
 import { useEffect, useState } from "react"
 import { UserType } from "../../type";
+import { cn } from "@/lib/utils";
 
 const Users = () => {
 
@@ -30,6 +31,22 @@ const Users = () => {
   useEffect (() => {
     fetchUsers();
   }, []);
+
+
+  // user role color change
+
+  const getRoleColor = (role:string)=> {
+    switch(role){
+      case 'admin':
+        return 'bg-red-100 text-red-800';
+      case 'user':
+        return 'bg-green-100 text-green-800';
+      case 'deliveryman':
+        return 'bg-blue-100 text-blue-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  }
 
 
 
@@ -90,11 +107,16 @@ const Users = () => {
                     </TableCell>
                     <TableCell>{user?.name}</TableCell>
                     <TableCell>{user?.email}</TableCell>
-                    <TableCell>{user?.role}</TableCell>
+                    <TableCell>
+                      <Badge className={cn("capitalize", getRoleColor(user?.role))}>{user?.role}</Badge>
+                    </TableCell>
                     <TableCell>{new Date(user?.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>
-                      <Button variant="outline" className="mr-2">Edit</Button>
-                      <Button variant="destructive">Delete</Button>
+                      <div className="flex items-center justify-center gap-2">
+                        <Button variant={"ghost"} size="icon" title="View User" className=" border border-border"><Eye/></Button>
+                        <Button variant={"ghost"} size="icon" title="Edit User" className=" border border-border"><Edit/></Button>
+                        <Button variant={"ghost"} size="icon" title="Delete User" className="border border-border"><Trash/></Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))

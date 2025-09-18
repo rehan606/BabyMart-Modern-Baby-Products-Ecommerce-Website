@@ -7,4 +7,4 @@ interface UserType {
     createdAt?: string;
 }
 
-export {UserType};
+export { UserType };
