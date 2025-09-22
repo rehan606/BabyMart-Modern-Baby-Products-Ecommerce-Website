@@ -9,6 +9,17 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import type { User } from "@/types";
 
+
+  // Modal / Dialouge 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 const Users = () => {
 
   const [users, setUsers] = useState<UserType[]>([]);
@@ -30,6 +41,8 @@ const Users = () => {
   const axiosPrivate = useAxiosPrivate();
   const {checkIsAdmin} = useAuthStore();
   const isAdmin = checkIsAdmin();
+
+
 
   const fetchUsers = async()=>{
     setLoading(true);
@@ -145,6 +158,21 @@ const Users = () => {
           </TableBody>
         </Table>
       </div> 
+
+
+      {/* Add User Modal  */}
+
+    <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+      {/* <DialogTrigger>Open</DialogTrigger> */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add User</DialogTitle>
+          <DialogDescription>
+            Create a new user account
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
 
     </div>
   )
