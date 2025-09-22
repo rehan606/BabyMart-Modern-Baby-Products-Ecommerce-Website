@@ -7,11 +7,26 @@ import { useEffect, useState } from "react"
 import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import type { User } from "@/types";
 
 const Users = () => {
 
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User| null>(null);
+  const [formLoading, setFormLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [perPage] = useState(20);
+  const [totalPages, setTotalPages] = useState(1);
+
   const axiosPrivate = useAxiosPrivate();
   const {checkIsAdmin} = useAuthStore();
   const isAdmin = checkIsAdmin();
@@ -68,9 +83,10 @@ const Users = () => {
              Refresh 
           </Button>
           {isAdmin && (
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white hoverEffect">
+            <Button onClick={() => setIsAddModalOpen(true)}  className="bg-blue-600 hover:bg-blue-700 text-white hoverEffect">
               <Plus className="w-4 h-4 mr-2" />
               Add User
+              
             </Button>
           )}
         </div>
