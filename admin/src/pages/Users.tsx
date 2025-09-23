@@ -19,8 +19,14 @@ import {
   DialogTitle,
   // DialogTrigger,
 } from "@/components/ui/dialog"
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import z from "zod";
+import { userSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+import { Input } from "@/components/ui/input";
+
+type FormData = z.infer<typeof userSchema>;
 
 const Users = () => {
 
@@ -44,7 +50,16 @@ const Users = () => {
   const {checkIsAdmin} = useAuthStore();
   const isAdmin = checkIsAdmin();
 
-  const formAdd = useForm
+  const formAdd = useForm<FormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      role: "user",
+      avatar: "",
+    }
+  })
 
   const fetchUsers = async()=>{
     setLoading(true);
@@ -176,8 +191,19 @@ const Users = () => {
 
         {/* Form  */}
         <Form {...formAdd}>
-            <form >
+            <form className="mt-4 space-y-6">
 
+              {/* Name Field  */}
+              
+                <FormField control={formAdd.control} name="name" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">Name</FormLabel>
+                        <FormControl>
+                            <Input type="text" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter name" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
             </form>
         </Form>
 
