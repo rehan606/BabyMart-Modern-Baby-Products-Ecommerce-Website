@@ -25,6 +25,7 @@ import z from "zod";
 import { userSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 type FormData = z.infer<typeof userSchema>;
 
@@ -193,7 +194,7 @@ const Users = () => {
         <Form {...formAdd}>
             <form className="mt-4 space-y-6">
 
-              {/* Name Field  */}
+                {/* Name Field  */}
               
                 <FormField control={formAdd.control} name="name" render={({ field }) => (
                     <FormItem>
@@ -204,6 +205,58 @@ const Users = () => {
                         <FormMessage />
                     </FormItem>
                 )} />
+                {/* Email Field  */}
+
+                <FormField control={formAdd.control} name="email" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
+                        <FormControl>
+                            <Input type="email" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter email" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+                {/* Password Field  */}
+
+                <FormField control={formAdd.control} name="password" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">Password</FormLabel>
+                        <FormControl>
+                            <Input type="password" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter password" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+                {/* Role Field  */}
+
+                <FormField control={formAdd.control} name="role" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">Role</FormLabel>
+                        <FormControl>
+                            <Select {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect">
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="user">User</SelectItem>
+                                    <SelectItem value="delivery_man">Delivery Man</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+                <div className="flex items-center justify-end gap-2 pt-4">
+                    <Button type="button" variant={"outline"} onClick={() => setIsAddModalOpen(false)} disabled={formLoading}>
+                        Cancel
+                    </Button>
+                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white hoverEffect" disabled={formLoading}>
+                        {formLoading ? "Adding..." : "Add User"}
+                    </Button>
+                </div>
             </form>
         </Form>
 
