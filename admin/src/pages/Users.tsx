@@ -17,8 +17,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  // DialogTrigger,
 } from "@/components/ui/dialog"
+import { Form } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 
 const Users = () => {
 
@@ -42,7 +44,7 @@ const Users = () => {
   const {checkIsAdmin} = useAuthStore();
   const isAdmin = checkIsAdmin();
 
-
+  const formAdd = useForm
 
   const fetchUsers = async()=>{
     setLoading(true);
@@ -160,17 +162,25 @@ const Users = () => {
       </div> 
 
 
-      {/* Add User Modal  */}
+    {/* Add User Modal  */}
 
     <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
-      <DialogContent>
+      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add User</DialogTitle>
           <DialogDescription>
             Create a new user account
           </DialogDescription>
         </DialogHeader>
+
+        {/* Form  */}
+        <Form {...formAdd}>
+            <form >
+
+            </form>
+        </Form>
+
       </DialogContent>
     </Dialog>
 
