@@ -202,7 +202,7 @@ const Users = () => {
                         <FormControl>
                             <Input type="text" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter name" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500" />
                     </FormItem>
                 )} />
                 {/* Email Field  */}
@@ -213,7 +213,7 @@ const Users = () => {
                         <FormControl>
                             <Input type="email" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter email" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500" />
                     </FormItem>
                 )} />
 
@@ -225,7 +225,7 @@ const Users = () => {
                         <FormControl>
                             <Input type="password" {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect" placeholder="Enter password" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500"/>
                     </FormItem>
                 )} />
 
@@ -252,29 +252,24 @@ const Users = () => {
                                 </SelectContent>
                             </Select>
                         
-                        <FormMessage />
+                        <FormMessage className="text-red-500"/>
                     </FormItem>
                 )} />
 
-                {/* <FormField control={formAdd.control} name="role" render={({ field }) => (
+                {/* Avatar Field  */}
+                <FormField control={formAdd.control} name="avatar" render={({ field }) => (
                     <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Role</FormLabel>
-                        
+                        <FormLabel className="text-gray-700 font-medium">Avatar</FormLabel>
                         <FormControl>
-                            <Select {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect"> 
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="user">User</SelectItem> 
-                                    <SelectItem value="admin">Admin</SelectItem>
-                                    <SelectItem value="deliveryman">Delivery Man</SelectItem>
-                                </SelectContent>
-                            </Select>
+                          {/* <ImageUpload 
+                            value={field.value ?? ""} 
+                            onChange={field.onChange}
+                            disabled={formLoading}
+                          /> */}
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500"/>
                     </FormItem>
-                )} /> */}
+                )} />
 
                 <div className="flex items-center justify-end gap-2 pt-4">
                     <Button type="button" variant={"outline"} onClick={() => setIsAddModalOpen(false)} disabled={formLoading}>
