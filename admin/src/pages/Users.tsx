@@ -234,21 +234,48 @@ const Users = () => {
                 <FormField control={formAdd.control} name="role" render={({ field }) => (
                     <FormItem>
                         <FormLabel className="text-gray-700 font-medium">Role</FormLabel>
+                        
+                        
+                            <Select 
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              disabled={formLoading} > 
+                                <FormControl>
+                                  <SelectTrigger className="border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hoverEffect transition=all duration-200">
+                                    <SelectValue placeholder="Select a role" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="user">User</SelectItem> 
+                                    <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="deliveryman">Delivery Man</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+                {/* <FormField control={formAdd.control} name="role" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">Role</FormLabel>
+                        
                         <FormControl>
-                            <Select {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect">
+                            <Select {...field} disabled={formLoading} className="focus:border-indigo-500 hoverEffect"> 
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select role" />
+                                    <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
                                 <SelectContent>
+                                    <SelectItem value="user">User</SelectItem> 
                                     <SelectItem value="admin">Admin</SelectItem>
-                                    <SelectItem value="user">User</SelectItem>
-                                    <SelectItem value="delivery_man">Delivery Man</SelectItem>
+                                    <SelectItem value="deliveryman">Delivery Man</SelectItem>
                                 </SelectContent>
                             </Select>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
-                )} />
+                )} /> */}
+
                 <div className="flex items-center justify-end gap-2 pt-4">
                     <Button type="button" variant={"outline"} onClick={() => setIsAddModalOpen(false)} disabled={formLoading}>
                         Cancel
