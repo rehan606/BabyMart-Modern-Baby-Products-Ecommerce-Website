@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import useAuthStore from "@/store/useAuthStore";
-import { Edit, Eye, Plus, RefreshCw, Trash, Users2 } from "lucide-react";
+import { Edit, Eye, Plus, RefreshCw, Trash, Users2, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react"
 import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ImageUpload } from "@/components/ui/image-upload";
 import type { User } from "@/types";
+import { toast } from "sonner";
 
 
   // Modal / Dialouge 
@@ -18,6 +19,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
   // DialogTrigger,
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -79,6 +81,22 @@ const Users = () => {
   useEffect (() => {
     fetchUsers();
   }, []);
+
+  // Form Submit 
+  const handleAddUser= async (data: FormData)=>{
+    setFormLoading(true);
+
+    try{
+      const userData = await axiosPrivate.post("/users", data);
+      console.log("userData", userData);
+      toast.success("User Created Successfully");
+    } catch (error) {
+      console.log("Faild to Create User", error);
+      toast("Faild to create user");
+    } finally{
+      setFormLoading(false);
+    }
+  };
 
 
   // user role color change
@@ -170,9 +188,10 @@ const Users = () => {
                   </TableRow>
                 ))
             ) : (
-            <div className="flex items-center justify-center py-10 font-semibold">
-              <h2 className="text-gray-600 text-center font-semibold">User Not Found</h2>
-            </div>
+            <TableRow className="flex items-center justify-center py-10 font-semibold">
+              <TableCell className="text-gray-600 text-center font-semibold">User Not Found</TableCell>
+            </TableRow>
+            
             ) }
           </TableBody>
         </Table>
@@ -193,7 +212,7 @@ const Users = () => {
 
         {/* Form  */}
         <Form {...formAdd}>
-            <form className="mt-4 space-y-6">
+            <form className="mt-4 space-y-6" onSubmit={formAdd.handleSubmit(handleAddUser)}>
 
                 {/* Name Field  */}
               
@@ -272,14 +291,23 @@ const Users = () => {
                     </FormItem>
                 )} />
 
-                <div className="flex items-center justify-end gap-2 pt-4">
+                {/* Buttons  */}
+
+                <DialogFooter>
                     <Button type="button" variant={"outline"} onClick={() => setIsAddModalOpen(false)} disabled={formLoading}>
                         Cancel
                     </Button>
-                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white hoverEffect" disabled={formLoading}>
-                        {formLoading ? "Adding..." : "Add User"}
+
+                    <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white hoverEffect" disabled={formLoading}>
+                        {formLoading ? (
+                          <>  
+                            <Loader2 className="animate-spin"/>   Adding...
+                          </>
+                        ) : (
+                          "Add User"
+                        )}
                     </Button>
-                </div>
+                </DialogFooter>
             </form>
         </Form>
 

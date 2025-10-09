@@ -54,16 +54,19 @@ export function ImageUpload ({value, onChange, disabled}:ImageUploadProps){
         setPreview(null);
     };
     return (
-        <Card>
-            <CardContent>
-                <div>
+        <Card className="border-dashed overflow-hidden">
+            <CardContent className="p-0">
+                <div {...getRootProps({
+                        className:"flex flex-col items-center justify-center px-4 cursor-pointer",
+                    })}
+                >
                     <input {...getInputProps()} />
                     {preview ? ( 
                         <div className="relative w-full">
                             <img 
                                 src={preview}
                                 alt="Preview"
-                                className="w-full h-[200px] object-cover rounded-md"
+                                className="w-full h-[250px] object-fit rounded-md"
                             />
 
                             <Button 
@@ -78,7 +81,7 @@ export function ImageUpload ({value, onChange, disabled}:ImageUploadProps){
                             </Button>
                         </div>
                     ) :(
-                        <div className="flex flex-col gap-4 items-center justify-center h-[200px] w-full border border-dashed border-muted-foreground/50 rounded-md text-center cursor-pointer hover:bg-accent hover:border-accent/70 transition-colors" {...getRootProps()}>
+                        <div className="flex flex-col gap-4 items-center justify-center h-[200px] w-full border border-dashed border-muted-foreground/50 rounded-md text-center cursor-pointer hover:bg-accent hover:border-accent/70 transition-colors" >
                             <Upload className="h-10 w-10 text-muted-foreground mb-1"/> 
                             <p>Drag &amp; drop or click to upload an image</p>
                             <p className="text-xs text-muted-foreground/70">PNG, JPG, GIF up to 5MB</p>
