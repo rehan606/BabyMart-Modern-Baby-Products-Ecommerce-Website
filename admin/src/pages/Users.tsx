@@ -82,14 +82,17 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  // Form Submit 
+  //Add User Form Submit 
   const handleAddUser= async (data: FormData)=>{
     setFormLoading(true);
 
     try{
-      const userData = await axiosPrivate.post("/users", data);
-      console.log("userData", userData);
+      await axiosPrivate.post("/users", data);
+      
       toast.success("User Created Successfully");
+      formAdd.reset();
+      setIsAddModalOpen(false);
+      fetchUsers();
     } catch (error) {
       console.log("Faild to Create User", error);
       toast("Faild to create user");
@@ -98,6 +101,38 @@ const Users = () => {
     }
   };
 
+  // Refresh user 
+  const handleRefresh = async()=>{
+    setRefreshing(true)
+    try{
+      const response = await axiosPrivate.get("/users", {
+        params:{
+          page,
+          perPage,
+          role: roleFilter !== "all" ? roleFilter : undefined,
+        },
+      });
+      // Handle both paginated and non-paginated responses 
+
+      if (response.data) {
+        setUsers(response.data);
+        // setTotal(response.data.total || response.data.users.length);
+        // setTotalPages(response.data.totalPages || 1);
+      } else {
+        setUsers(response.data);
+        // setTotal(response.data.length);
+        // setTotalPages(1);
+      }
+
+      toast("Users refreshed successfully");
+
+    } catch (error) {
+      console.log("Failed to refresh users", error);
+      toast("Failed o refresh users");
+    } finally {
+      setRefreshing(false)
+    }
+  }
 
   // user role color change
 
@@ -114,7 +149,9 @@ const Users = () => {
     }
   }
 
-
+  if(loading){
+    return <div></div>
+  }
 
   return ( 
     <div className="p-6 space-y-6">
@@ -128,9 +165,13 @@ const Users = () => {
             <Users2 className="w-8 h-8 " />
             <p className="text-2xl font-bold">{ users?.length}</p>
           </div>
-          <Button variant={"outline"} className="border-blue-600 text-blue-600 hover:bg-blue-50 hoverEffect"> 
-            <RefreshCw className="w-4 h-4 mr-2" />
-             Refresh 
+          <Button 
+            variant={"outline"} 
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="border-blue-600 text-blue-600 hover:bg-blue-50 hoverEffect"> 
+            <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+             {Refreshing ? "Refreshing..." : "Refresh" }
           </Button>
           {isAdmin && (
             <Button onClick={() => setIsAddModalOpen(true)}  className="bg-blue-600 hover:bg-blue-700 text-white hoverEffect">
