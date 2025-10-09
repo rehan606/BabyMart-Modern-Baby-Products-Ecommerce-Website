@@ -14,7 +14,7 @@ import { toast } from "sonner";
 
 
 
-  // Modal / Dialouge 
+// Modal / Dialouge 
 import {
   Dialog,
   DialogContent,
@@ -24,9 +24,20 @@ import {
   DialogFooter,
   // DialogTrigger,
 } from "@/components/ui/dialog"
+// alert Dialouge
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import z, { set } from "zod";
 import { userSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { Input } from "@/components/ui/input";
@@ -134,6 +145,30 @@ const Users = () => {
     } finally {
       setRefreshing(false)
     }
+  };
+
+  // Delete User
+  const handleDelete = (user: UserType) => {
+    setSelectedUser(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteUser = async() => {
+    if (!selectedUser) return;
+    setLoading(true)
+
+    try {
+      await axiosPrivate.delete(`/users/${selectedUser?._id}`);
+      toast("Success", {
+        description: "User Deleted successfully"
+      });
+      fetchUsers();
+    } catch (error) {
+      console.log("Failed to delete user", error);
+      toast("Failed to delete user", {
+        description: "Please try again later."
+      });
+    }
   }
 
   // user role color change
@@ -225,7 +260,12 @@ const Users = () => {
                       <div className="flex items-center justify-center gap-2">
                         <Button variant={"ghost"} size="icon" title="View User" className=" border border-border"><Eye/></Button>
                         <Button variant={"ghost"} size="icon" title="Edit User" className=" border border-border"><Edit/></Button>
-                        <Button variant={"ghost"} size="icon" title="Delete User" className="border border-border"><Trash/></Button>
+                        <Button 
+                          variant={"ghost"} 
+                          size="icon" 
+                          onClick={() => handleDelete(user)}
+                          title="Delete User" 
+                          className="border border-border"><Trash/></Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -356,6 +396,30 @@ const Users = () => {
 
       </DialogContent>
     </Dialog>
+
+    
+    {/* Delete User Modal */}
+      <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete{" "}
+              <span className="font-semibold">{selectedUser?.name}</span>'s
+              account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteUser}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
     </div>
   )

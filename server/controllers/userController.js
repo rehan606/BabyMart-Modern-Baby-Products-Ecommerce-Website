@@ -5,6 +5,8 @@ import User from "../models/userModel.js"
 // @route   GET /api/users
 // @access  Private/Admin
 
+
+// Get all users
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({}).select('-password'); // Exclude password field
     res.json(users);
@@ -44,4 +46,24 @@ const createUser = asyncHandler(async(req, res) => {
     }
 });
 
-export { getUsers ,createUser }
+// Delete user 
+const deleteUser= asyncHandler(async(req, res) => {
+    const user = await User.findById(req.params.id)
+
+    if(user){
+        // // Delete user's cart 
+        // await Cart.deleteOne({ userId: user._id});
+
+        // // Delete user's orders (if any exist)
+        // await Order.deleteMany({ userId: user._id });
+
+        // Delete User 
+        await user.deleteOne();
+        res.json({ message: "User removed"})
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+})
+
+export { getUsers , createUser, deleteUser }
