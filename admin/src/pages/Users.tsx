@@ -7,9 +7,11 @@ import { useEffect, useState } from "react"
 import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ImageUpload } from "@/components/ui/image-upload";
 import type { User } from "@/types";
 import { toast } from "sonner";
+
 
 
   // Modal / Dialouge 
@@ -150,7 +152,19 @@ const Users = () => {
   }
 
   if(loading){
-    return <div></div>
+    return <div className="p-6 space-y-6">
+      {/* Header Skeleton */}
+      <div className="flex items-center justify-between">
+        <div >
+          <Skeleton className="h-8 w-64 mb-2"/>
+          <Skeleton className="h-4 w-48 "/>
+        </div>
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-8 w-8 rounded"/>
+          <Skeleton className="h-6 w-12 "/>
+        </div>
+      </div>
+    </div>
   }
 
   return ( 
