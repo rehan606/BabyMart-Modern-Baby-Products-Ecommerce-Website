@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { Card, CardContent } from "./card";
+import { Upload, X } from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 interface ImageUploadProps {
   value: string;
@@ -45,6 +48,45 @@ export function ImageUpload ({value, onChange, disabled}:ImageUploadProps){
         }
     });
 
-    
-}
+    const handleRemove = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        onChange("");
+        setPreview(null);
+    };
+    return (
+        <Card>
+            <CardContent>
+                <div>
+                    <input {...getInputProps()} />
+                    {preview ? ( 
+                        <div className="relative w-full">
+                            <img 
+                                src={preview}
+                                alt="Preview"
+                                className="w-full h-[200px] object-cover rounded-md"
+                            />
+
+                            <Button 
+                                type="button"
+                                variant="destructive"
+                                size="icon"
+                                className="absolute top-2 right-2"
+                                onClick={handleRemove}
+                                disabled={disabled} 
+                            >
+                                <X size={16} />
+                            </Button>
+                        </div>
+                    ) :(
+                        <div className="flex flex-col gap-4 items-center justify-center h-[200px] w-full border border-dashed border-muted-foreground/50 rounded-md text-center cursor-pointer hover:bg-accent hover:border-accent/70 transition-colors" {...getRootProps()}>
+                            <Upload className="h-10 w-10 text-muted-foreground mb-1"/> 
+                            <p>Drag &amp; drop or click to upload an image</p>
+                            <p className="text-xs text-muted-foreground/70">PNG, JPG, GIF up to 5MB</p>
+                        </div>
+                    )}
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
 

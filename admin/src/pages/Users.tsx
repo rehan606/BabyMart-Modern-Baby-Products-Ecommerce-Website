@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { ImageUpload } from "@/components/ui/image-upload";
 import type { User } from "@/types";
 
 
@@ -261,11 +262,11 @@ const Users = () => {
                     <FormItem>
                         <FormLabel className="text-gray-700 font-medium">Avatar</FormLabel>
                         <FormControl>
-                          {/* <ImageUpload 
+                          <ImageUpload 
                             value={field.value ?? ""} 
                             onChange={field.onChange}
                             disabled={formLoading}
-                          /> */}
+                          />
                         </FormControl>
                         <FormMessage className="text-red-500"/>
                     </FormItem>
