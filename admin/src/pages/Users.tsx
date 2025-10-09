@@ -265,7 +265,7 @@ const Users = () => {
                           size="icon" 
                           onClick={() => handleDelete(user)}
                           title="Delete User" 
-                          className="border border-border"><Trash/></Button>
+                          className="border border-border hover:bg-red-300  "><Trash /></Button>
                       </div>
                     </TableCell>
                   </TableRow>
