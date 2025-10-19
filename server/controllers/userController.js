@@ -65,14 +65,21 @@ const updateUser = asyncHandler(async(req, res) => {
     // Update user fields
     user.name = req.body.name || user.name;
   
-    // if (req.body.password) {
-    //     user.password = req.body.password;
-    // }
+    if (req.body.password) {
+        user.password = req.body.password;
+    }
 
     if (req.body.role) {
         user.role = req.body.role
     }
     user.addresses = req.body.addresses || user.addresses;
+
+    // Image Setup 
+    if (req.body.avatar && req.body.avatar !== user.avatar) {
+
+        // Upload user to Cloudinary here if needed
+        
+    }
 
     const updatedUser = await user.save();
     res.json({

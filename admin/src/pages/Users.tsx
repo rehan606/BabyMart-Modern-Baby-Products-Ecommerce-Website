@@ -724,7 +724,7 @@ const Users = () => {
                   <Label className="text-sm font-medium text-gray-600">
                     User ID
                   </Label>
-                  <p className="text-lg font-semibold">{selectedUser._id}</p>
+                  <p className="text-lg  text-green-600">{selectedUser._id}</p>
                 </div>
                 <div>
                   <Label className="text-sm font-medium text-gray-600">
