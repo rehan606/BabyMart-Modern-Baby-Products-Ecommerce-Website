@@ -42,6 +42,8 @@ import { userSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+
 
 type FormData = z.infer<typeof userSchema>;
 
@@ -188,6 +190,12 @@ const Users = () => {
     }
   };
 
+  // View User 
+  const handleView = (user: User) =>{
+    setSelectedUser(user);
+    setIsViewModalOpen(true);
+  }
+
   // Delete User
   const handleDelete = (user: UserType) => {
     setSelectedUser(user);
@@ -298,8 +306,17 @@ const Users = () => {
                     <TableCell>{new Date(user?.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex items-center justify-center gap-2">
+
                         {/* view user button  */}
-                        <Button variant={"ghost"} size="icon" title="View User" className=" border border-border"><Eye/></Button>
+                        <Button 
+                          variant={"ghost"} 
+                          size="icon" 
+                          title="View User" 
+                          className=" border border-border"
+                          onClick={()=> handleView(user)}
+                          >
+                            <Eye/>
+                        </Button>
 
                         {/* Edit User Button  */}
                         <Button 
@@ -448,8 +465,8 @@ const Users = () => {
       </DialogContent>
     </Dialog>
 
-    {/* Edit User Model */}
 
+    {/* Edit User Model */}
     <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -635,7 +652,7 @@ const Users = () => {
             </form>
           </Form>
         </DialogContent>
-      </Dialog>
+    </Dialog>
 
     
     {/* Delete User Modal */}
@@ -660,6 +677,66 @@ const Users = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+    {/* View User Modal */}
+      <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>User Details</DialogTitle>
+            <DialogDescription>
+              View complete user information
+            </DialogDescription>
+          </DialogHeader>
+          {selectedUser && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="h-20 w-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold shadow-sm overflow-hidden">
+                  {selectedUser.avatar ? (
+                    <img
+                      src={selectedUser.avatar}
+                      alt={selectedUser.name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-2xl">
+                      {selectedUser.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    {selectedUser.name}
+                  </h3>
+                  <p className="text-gray-600">{selectedUser.email}</p>
+                  <Badge
+                    className={cn(
+                      "capitalize mt-2",
+                      getRoleColor(selectedUser.role)
+                    )}
+                  >
+                    {selectedUser.role}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">
+                    User ID
+                  </Label>
+                  <p className="text-lg font-semibold">{selectedUser._id}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">
+                    Created At
+                  </Label>
+                  <p>{new Date(selectedUser.createdAt).toLocaleDateString()}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
     </div>
   )

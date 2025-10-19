@@ -46,6 +46,45 @@ const createUser = asyncHandler(async(req, res) => {
     }
 });
 
+// Update User 
+const updateUser = asyncHandler(async(req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user){
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    // Allow updates by the user themesleves of admins
+
+    if(user.id.toString() !== req.user._id.toString() && req.user.role !== 'admin'){
+        res.status(401);
+        throw new Error("Not authorized to update this user");
+    }
+
+    // Update user fields
+    user.name = req.body.name || user.name;
+  
+    // if (req.body.password) {
+    //     user.password = req.body.password;
+    // }
+
+    if (req.body.role) {
+        user.role = req.body.role
+    }
+    user.addresses = req.body.addresses || user.addresses;
+
+    const updatedUser = await user.save();
+    res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        role: updatedUser.role,
+        addresses: updatedUser.addresses,
+    });
+});
+
 // Delete user 
 const deleteUser= asyncHandler(async(req, res) => {
     const user = await User.findById(req.params.id)
@@ -66,4 +105,4 @@ const deleteUser= asyncHandler(async(req, res) => {
     }
 })
 
-export { getUsers , createUser, deleteUser }
+export { getUsers , createUser, deleteUser, updateUser };
