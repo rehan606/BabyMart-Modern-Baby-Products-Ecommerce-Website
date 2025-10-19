@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import useAuthStore from "@/store/useAuthStore";
-import { Edit, Eye, Plus, RefreshCw, Trash, Users2, Loader2 } from "lucide-react";
+import { Edit, Eye, Plus, RefreshCw, Trash, Users2, Loader2, Search } from "lucide-react";
 import { useEffect, useState } from "react"
 import type { UserType } from "../../type";
 import { cn } from "@/lib/utils";
@@ -269,6 +269,27 @@ const Users = () => {
       </div>
 
       {/* Filters Skeleton */}
+      <div className="bg-white p-4 rounded-lg shadow-sm border space-y-4">
+        <div className="flex flex-wrap items-center  gap-4">
+          <div className="flex items-center gap-2">
+            <Search className="w-4 h-4 text-gray-500"/>
+            <Input placeholder="Search users..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-64" />
+          </div>
+
+          {/* Filter  */}
+          <Select value={roleFilter} onValueChange={setRoleFilter}>
+            <SelectTrigger className="w-48 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hoverEffect transition=all duration-200">
+              <SelectValue placeholder="Filter by role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Roles</SelectItem>
+              <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="user">User</SelectItem>
+              <SelectItem value="deliveryman">Deliveryman</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       {/* Table Skeleton  */}
       <div className="bg-white rounded-lg shadow-sm">
@@ -291,7 +312,7 @@ const Users = () => {
                   <TableRow key={user?._id}>
                     <TableCell>
                       <div className="h-12 w-12 rounded-full overflow-hidden bg-blue-200 flex items-center justify-center text-blue-600 font-semibold shadow-sm">
-                        {!user?.avatar ?  <img src={user?.avatar} alt="userImage" className="h-full w-full object-cover rounded-full" /> : 
+                        {user?.avatar ?  <img src={user?.avatar} alt="userImage" className="h-full w-full object-cover rounded-full" /> : 
                       <div className="h-full w-full object-cover rounded-full bg-gradient-to-br from-[#29beb3] to-[#a96bde] flex items-center justify-center text-white text-lg font-bold overflow-hidden shadow-lg ring-2 ring-white/20">
                         {user?.name?.charAt(0).toUpperCase()}
                       </div>
