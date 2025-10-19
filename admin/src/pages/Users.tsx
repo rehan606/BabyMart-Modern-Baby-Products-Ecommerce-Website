@@ -67,12 +67,24 @@ const Users = () => {
   const {checkIsAdmin} = useAuthStore();
   const isAdmin = checkIsAdmin();
 
+  // Add User Form
   const formAdd = useForm<FormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      role: "user",
+      avatar: "",
+    }
+  })
+
+  // Edit User Form
+  const formEdit = useForm<FormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      name: "",
+      email: "",
       role: "user",
       avatar: "",
     }
@@ -147,6 +159,18 @@ const Users = () => {
     }
   };
 
+  // Edit User
+  const handleEdit = (user:User)=>{
+    setSelectedUser(user);
+    formEdit.reset({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar || "",
+    });
+    setIsEditModalOpen(true);
+  };
+
   // Delete User
   const handleDelete = (user: UserType) => {
     setSelectedUser(user);
@@ -172,7 +196,6 @@ const Users = () => {
   }
 
   // user role color change
-
   const getRoleColor = (role:string)=> {
     switch(role){
       case 'admin':
@@ -258,8 +281,20 @@ const Users = () => {
                     <TableCell>{new Date(user?.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex items-center justify-center gap-2">
+                        {/* view user button  */}
                         <Button variant={"ghost"} size="icon" title="View User" className=" border border-border"><Eye/></Button>
-                        <Button variant={"ghost"} size="icon" title="Edit User" className=" border border-border"><Edit/></Button>
+
+                        {/* Edit User Button  */}
+                        <Button 
+                          variant={"ghost"} 
+                          size="icon" 
+                          title="Edit User" 
+                          className=" border border-border"
+                          onClick={() => handleEdit(user)}
+                          > <Edit/>
+                        </Button>
+
+                        {/* Delete user Button  */}
                         <Button 
                           variant={"ghost"} 
                           size="icon" 
@@ -282,7 +317,6 @@ const Users = () => {
 
 
     {/* Add User Modal  */}
-
     <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
@@ -396,6 +430,8 @@ const Users = () => {
 
       </DialogContent>
     </Dialog>
+
+    
 
     
     {/* Delete User Modal */}
