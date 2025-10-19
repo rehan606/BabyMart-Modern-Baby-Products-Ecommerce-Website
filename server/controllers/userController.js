@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler"
 import User from "../models/userModel.js"
+import cloudinary from "../config/cloudinary.js";
 
 // @desc    Get all users
 // @route   GET /api/users
@@ -77,8 +78,14 @@ const updateUser = asyncHandler(async(req, res) => {
     // Image Setup 
     if (req.body.avatar && req.body.avatar !== user.avatar) {
 
-        // Upload user to Cloudinary here if needed
+        // Upload user to Cloudinary 
+        const result = await cloudinary.uploader.upload(req.body.avatar, {
+            folder: 'babymart/avatars',
+        });
         
+        user.avatar = result.secure_url;
+
+
     }
 
     const updatedUser = await user.save();
