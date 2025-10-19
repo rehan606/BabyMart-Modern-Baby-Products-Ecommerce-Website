@@ -96,8 +96,27 @@ const Users = () => {
     setLoading(true);
 
     try {
-      const response = await axiosPrivate.get('/users');
-      setUsers(response?.data);
+      // Add a small delay to demonstrate the skeleton loading state
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const response = await axiosPrivate.get('/users', {
+        params: {
+          page,
+          perPage,
+          sortOrder: "desc",
+          role: roleFilter === "all" ? undefined : roleFilter,
+        },
+      });
+      // setUsers(response?.data);
+      if(response.data.users ){
+        setUsers(response.data.users);
+        setTotal(response.data.total || response.data.users.length);
+        setTotalPages(response.data.totalPages || 1);
+      } else {
+        setUsers(response.data);
+        setTotal(response.data.length);
+        setTotalPages(1);
+      }
     } catch (error) {
       console.error("Failed to load users:", error);
     } finally{
@@ -107,7 +126,7 @@ const Users = () => {
 
   useEffect (() => {
     fetchUsers();
-  }, []);
+  }, [page, roleFilter]);
 
   //Add User Form Submit 
   const handleAddUser= async (data: FormData)=>{
