@@ -92,6 +92,8 @@ const Users = () => {
     }
   })
 
+
+  // Fetch Users 
   const fetchUsers = async()=>{
     setLoading(true);
 
@@ -124,9 +126,6 @@ const Users = () => {
     }
   };
 
-  useEffect (() => {
-    fetchUsers();
-  }, [page, roleFilter]);
 
   //Add User Form Submit 
   const handleAddUser= async (data: FormData)=>{
@@ -215,8 +214,21 @@ const Users = () => {
     setIsViewModalOpen(true);
   }
 
+  // Filter user by search and role 
+  const filterUser = users.filter((user)=>{
+    // by search
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    // by role
+    const matchesRole = roleFilter === "all" || user.role === roleFilter;
+    return matchesSearch && matchesRole;
+  })
+
+  useEffect (() => {
+    fetchUsers();
+  }, [page, roleFilter]);
+
   // Delete User
-  const handleDelete = (user: UserType) => {
+  const handleDelete = (user: User) => {
     setSelectedUser(user);
     setIsDeleteModalOpen(true);
   };
