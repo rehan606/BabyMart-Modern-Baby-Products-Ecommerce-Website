@@ -215,10 +215,10 @@ const Users = () => {
   }
 
   // Filter user by search and role 
-  const filterUser = users.filter((user)=>{
+  const filteredUser = users.filter((user)=>{
     // by search
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    // by role
+    // by role 
     const matchesRole = roleFilter === "all" || user.role === roleFilter;
     return matchesSearch && matchesRole;
   })
@@ -279,7 +279,7 @@ const Users = () => {
         <div className="flex items-center gap-4">
           <div className="text-blue-600 flex items-center gap-1">
             <Users2 className="w-8 h-8 " />
-            <p className="text-2xl font-bold">{ users?.length}</p>
+            <p className="text-2xl font-bold">{ total}</p>
           </div>
           <Button 
             variant={"outline"} 
@@ -337,9 +337,9 @@ const Users = () => {
           </TableHeader>
 
           <TableBody>
-            {users?.length > 0 ? ( 
+            {filteredUser?.length > 0 ? ( 
                
-                users?.map((user) => (
+                filteredUser?.map((user) => (
                   <TableRow key={user?._id}>
                     <TableCell>
                       <div className="h-12 w-12 rounded-full overflow-hidden bg-blue-200 flex items-center justify-center text-blue-600 font-semibold shadow-sm">
