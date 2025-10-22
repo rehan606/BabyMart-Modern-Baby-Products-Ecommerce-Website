@@ -39,4 +39,16 @@ const createBrand = asyncHandler(async(req,res)=> {
     }
 });
 
-export { getBrands, createBrand };
+// GetBrandById
+const getBrandById = asyncHandler(async (req, res) =>{
+    const brand = await Brand.findById(req.params.id);
+
+    if (brand) {
+        res.json(brand);
+    } else {
+        res.status(404);
+        throw new Error ("Brand not found");
+    }
+});
+
+export { getBrands, createBrand, getBrandById };
