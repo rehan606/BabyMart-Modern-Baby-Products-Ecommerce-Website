@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.js";
-import userRoute from "./routes/userRoute.js";
 import connectDB from "./config/db.js";
 import cors from "cors";
 
+// Routes
+import authRoutes from "./routes/authRoutes.js";
+import userRoute from "./routes/userRoute.js";
+import brandsRoute from "./routes/brandRoutes.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -44,6 +46,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoute)
+app.use("/api/brands", brandsRoute)
 
 // API documentation
 
