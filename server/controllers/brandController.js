@@ -79,5 +79,18 @@ const updateBrand = asyncHandler(async (req, res) => {
   }
 });
 
+// deleteBrand
+const deleteBrand = asyncHandler(async (req, res) => {
+  const brand = await Brand.findById(req.params.id);
 
-export { getBrands, createBrand, getBrandById, updateBrand };
+  if (brand) {
+    await brand.deleteOne();
+    res.status(200).json({ message: "Brand removed" });
+  } else {
+    res.status(404);
+    throw new Error("Brand not found");
+  }
+});
+
+
+export { getBrands, createBrand, getBrandById, updateBrand, deleteBrand };
