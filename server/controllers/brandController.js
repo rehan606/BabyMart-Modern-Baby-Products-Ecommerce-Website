@@ -2,6 +2,11 @@ import asyncHandler from "express-async-handler";
 import Brand from "../models/brandModel.js";
 import cloudinary from "../config/cloudinary.js";
 
+// getBrands
+const getBrands = asyncHandler(async (req, res) => {
+    const brands = await Brand.find({});
+    res.json(brands);
+})
 
 // Create Brand
 const createBrand = asyncHandler(async(req,res)=> {
@@ -34,4 +39,4 @@ const createBrand = asyncHandler(async(req,res)=> {
     }
 });
 
-export { createBrand };
+export { getBrands, createBrand };
