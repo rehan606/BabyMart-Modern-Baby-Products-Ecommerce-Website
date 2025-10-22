@@ -51,4 +51,33 @@ const getBrandById = asyncHandler(async (req, res) =>{
     }
 });
 
-export { getBrands, createBrand, getBrandById };
+// updateBrand
+const updateBrand = asyncHandler(async (req, res) => {
+  const { name, image } = req.body;
+
+  const brand = await Brand.findById(req.params.id);
+
+  if (brand) {
+    brand.name = name || brand.name;
+
+    if (image !== undefined) {
+      if (image) {
+        const result = await cloudinary.uploader.upload(image, {
+          folder: "babymart/brands",
+        });
+        brand.image = result.secure_url;
+      } else {
+        brand.image = undefined; // Clear image if empty string is provided
+      }
+    }
+
+    const updatedBrand = await brand.save();
+    res.json(updatedBrand);
+  } else {
+    res.status(404);
+    throw new Error("Brand not found");
+  }
+});
+
+
+export { getBrands, createBrand, getBrandById, updateBrand };
