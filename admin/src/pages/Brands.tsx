@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent , DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { brandSchema } from "@/lib/validation";
 import useAuthStore from "@/store/useAuthStore";
@@ -79,8 +80,18 @@ const Brands = () => {
           )}
         </div>
       </div>
+
+      {/* Add Brand modal */}
+      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Brand</DialogTitle>
+            <DialogDescription>Create a new product brand</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
-  )
-}
+  );;
+};
 
 export default Brands
