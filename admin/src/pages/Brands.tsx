@@ -62,6 +62,7 @@ const Brands = () => {
   const { checkIsAdmin } = useAuthStore();
   const isAdmin = checkIsAdmin();
 
+  // Add Form
   const formAdd = useForm<FormData>({
     resolver: zodResolver(brandSchema),
     defaultValues: {
@@ -70,6 +71,8 @@ const Brands = () => {
     },
   });
 
+
+  // Edit Form
   const formEdit = useForm<FormData>({
     resolver: zodResolver(brandSchema),
     defaultValues: {
@@ -78,6 +81,7 @@ const Brands = () => {
     },
   });
 
+  // Fetch Brands
   const fetchBrands = async () => {
     setLoading(true);
     try {
@@ -91,6 +95,7 @@ const Brands = () => {
     }
   };
 
+  // Refresh Brands
   const handleRefresh = async () => {
     setRefreshing(true);
     try {
@@ -109,6 +114,7 @@ const Brands = () => {
     fetchBrands();
   }, []);
 
+  // Add Brand
   const handleAddBrand = async (data: FormData) => {
     setFormLoading(true);
     try {
@@ -125,6 +131,7 @@ const Brands = () => {
     }
   };
 
+  // Edit Brand
   const handleEdit = (brand: Brand) => {
     setSelectedBrand(brand);
     formEdit.reset({
@@ -134,6 +141,7 @@ const Brands = () => {
     setIsEditModalOpen(true);
   };
 
+  // Update Brand
   const handleUpdateBrand = async (data: FormData) => {
     if (!selectedBrand) return;
     setFormLoading(true);
@@ -150,6 +158,7 @@ const Brands = () => {
     }
   };
 
+  // Delete Brand
   const handleDelete = (brand: Brand) => {
     setSelectedBrand(brand);
     setIsDeleteModalOpen(true);
@@ -322,7 +331,95 @@ const Brands = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Edit Brand Modal */}
+      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit Brand</DialogTitle>
+            <DialogDescription>Update brand information</DialogDescription>
+          </DialogHeader>
+          <Form {...formEdit}>
+            <form
+              onSubmit={formEdit.handleSubmit(handleUpdateBrand)}
+              className="space-y-4"
+            >
+              <FormField
+                control={formEdit.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={formLoading} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={formEdit.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Brand Image (Optional)</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        disabled={formLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsEditModalOpen(false)}
+                  disabled={formLoading}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={formLoading}>
+                  {formLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    "Update Brand"
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
 
+      {/* Delete Brand Confirmation */}
+      <AlertDialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              brand <span className="font-semibold">{selectedBrand?.name}</span>
+              .
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteBrand}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       
     </div>
   );
