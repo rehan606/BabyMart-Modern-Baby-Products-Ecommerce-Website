@@ -29,4 +29,10 @@ export const userSchema = z.object({
         message: "Please select a valid role",
     }),
     avatar: z.string().optional(), 
-})
+});
+
+// BrandSchema  
+export const brandSchema = z.object({
+    name: z.string().min(2, {message: "Brand name must be at least 2 characters"}),
+    image: z.string().optional(),
+});

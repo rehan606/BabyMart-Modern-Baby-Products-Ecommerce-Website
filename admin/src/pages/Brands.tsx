@@ -1,4 +1,8 @@
+import { brandSchema } from "@/lib/validation";
 import { useState } from "react";
+import type { Brand } from "type";
+
+type FormData = z.infer<typeof brandSchema>;
 
 
 const Brands = () => {
