@@ -22,9 +22,10 @@ const createBrand = asyncHandler(async(req,res)=> {
     let imageUrl = ""
 
     if(image){
-        const result = await cloudinary.upload(image,{
+        const result = await cloudinary.uploader.upload(image,{
             folder: "babymart/brands",
         });
+        
         imageUrl = result.secure_url;
     }
     const brand = await Brand.create({
