@@ -49,6 +49,17 @@ const Categories = () => {
     },
   });
 
+
+  // Form Edit
+  const formEdit = useForm<FormData>({
+    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      name: "",
+      image: "",
+      categoryType: "Featured",
+    },
+  });
+
   return (
     <div>
       Categories
