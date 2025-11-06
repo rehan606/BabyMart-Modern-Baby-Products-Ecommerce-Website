@@ -84,7 +84,7 @@ const getCategories = asyncHandler(async (req, res) => {
   res.json({ categories, page, perPage, total, totalPages });
 });
 
-// Get Category by ID (Optional)
+// Get Category by ID 
 const getCategoryById = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.id);
   if (category) {
@@ -95,4 +95,41 @@ const getCategoryById = asyncHandler(async (req, res) => {
   }
 });
 
-export { createCategory, getCategories, getCategoryById };
+// Update Category 
+const updateCategory = asyncHandler(async (req, res) => {
+    const {name, image, categoryType} = req.body;
+
+    // Valid Category Type
+    const validCategoryTypes = ["Featured", "Hot Categories", "Top Categories"];
+    if (categoryType && !validCategoryTypes.includes(categoryType)) {
+        res.status(400);
+        throw new Error("Please select a valid category type");
+    }
+
+    const category = await Category.findById(req.params.id);
+    if (category) {
+        category.name = name || category.name;
+        category.categoryType = categoryType || category.categoryType;
+
+        // If new image is provided, upload to Cloudinary
+        if (image !== undefined) {
+            if (image) {
+                const result = await cloudinary.uploader.upload(image, {
+                    folder: "babymart/categories",
+                });
+                category.image = result.secure_url;
+            } else {
+                category.image = undefined; // Remove image if empty string is provided
+            }
+        }
+
+        const updatedCategory = await category.save();
+        res.json(updatedCategory);
+    } else {
+        res.status(404);
+        throw new Error("Category not found");
+    }
+});
+
+
+export { createCategory, getCategories, getCategoryById, updateCategory };
