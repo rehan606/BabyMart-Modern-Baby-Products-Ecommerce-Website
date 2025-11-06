@@ -2,7 +2,7 @@ import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { categorySchema } from "@/lib/validation";
 import useAuthStore from "@/store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 
@@ -59,6 +59,27 @@ const Categories = () => {
       categoryType: "Featured",
     },
   });
+
+  // Fetch Categories function would go here
+  const fetchCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosPrivate.get(`/api/categories`, {
+        params: { page, perPage, sortOrder },
+      });
+      setCategories(response?.data?.categories || []);
+      setTotal(response?.data?.total || 0);
+      setTotalPages(response?.data?.totalPages || 1);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, [page, sortOrder]);
 
   return (
     <div>
