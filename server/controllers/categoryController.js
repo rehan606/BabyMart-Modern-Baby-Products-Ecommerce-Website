@@ -52,4 +52,36 @@ const createCategory = asyncHandler(async (req, res) => {
     }
 });
 
-export { getCategories, createCategory };
+// Get Categories
+const getCategories = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const perPage = parseInt(req.query.perPage) || 20;
+  const sortOrder = req.query.sortOrder || "asc" ; // Default to ascending
+
+  // Validation page and perPage
+  if (page < 1 || perPage < 1) {
+    res.status(400);
+    throw new Error("Page and perPage must be positive integers");
+  }
+
+  // Validate sortOrder
+  if (!["asc", "desc"].includes(sortOrder)) {
+    res.status(400);
+    throw new Error("sortOrder must be either 'asc' or 'desc'");
+  }
+
+  const skip = (page - 1) * perPage;
+  const total = await Category.countDocuments({});
+  const sortValue = sortOrder === "asc" ? 1 : -1;
+
+  const categories = await Category.find({})
+  .skip(skip)
+  .limit(perPage)
+  .sort({ createdAt: sortValue});
+
+  const totalPages = Math.ceil(total / perPage);
+
+  res.json({ categories, page, perPage, total, totalPages });
+});
+
+export { createCategory ,  getCategories };
