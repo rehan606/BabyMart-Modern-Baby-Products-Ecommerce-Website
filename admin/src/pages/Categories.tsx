@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { categorySchema } from "@/lib/validation";
 import useAuthStore from "@/store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Package, RefreshCcw, RefreshCw } from "lucide-react";
+import { Package, RefreshCcw, RefreshCw, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -28,6 +29,8 @@ const Categories = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [categoryTypeFilter, setCategoryTypeFilter] = useState<string>("all");
   const [refreshing, setRefreshing] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -107,8 +110,16 @@ const Categories = () => {
     fetchCategories();
   }, [page, sortOrder]);
 
+  // Search Input Handler
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setPage(1);
+  }
+
   return (
     <div className="space-y-6 p-5">
+      {/* Category Page Header  */}
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Categories Management</h1>
@@ -133,6 +144,21 @@ const Categories = () => {
           </div>
         </div>
       </div>
+
+      {/* Category Filter */}
+      <div className="bg-white p-4 rounded-lg shadow-sm border space-y-4">
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <Search/>
+            <Input 
+              placeholder="Search categories..."
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="w-64" />
+          </div>  
+        </div>
+      </div>
+
     </div>
   )
 }
