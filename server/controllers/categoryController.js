@@ -84,4 +84,15 @@ const getCategories = asyncHandler(async (req, res) => {
   res.json({ categories, page, perPage, total, totalPages });
 });
 
-export { createCategory ,  getCategories };
+// Get Category by ID (Optional)
+const getCategoryById = asyncHandler(async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  if (category) {
+    res.json(category);
+  } else {
+    res.status(404);
+    throw new Error("Category not found");
+  }
+});
+
+export { createCategory, getCategories, getCategoryById };
