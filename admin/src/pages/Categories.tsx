@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem  } from "@/components/ui/select";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { categorySchema } from "@/lib/validation";
 import useAuthStore from "@/store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Package, RefreshCcw, RefreshCw, Search } from "lucide-react";
+import { Package, RefreshCw, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -145,9 +146,10 @@ const Categories = () => {
         </div>
       </div>
 
-      {/* Category Filter */}
+      {/* Search, Filter and sort Category */}
       <div className="bg-white p-4 rounded-lg shadow-sm border space-y-4">
         <div className="flex items-center gap-4 flex-wrap">
+          {/* Search Category */}
           <div className="flex items-center gap-2">
             <Search/>
             <Input 
@@ -155,7 +157,21 @@ const Categories = () => {
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="w-64" />
-          </div>  
+          </div> 
+
+          {/* Category Filter */}
+          <Select value={categoryTypeFilter} onValueChange={setCategoryTypeFilter}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Filter by type" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="Featured">Featured</SelectItem>
+              <SelectItem value="Hot Categories">Hot Categories</SelectItem>
+              <SelectItem value="Top Categories">Top Categories</SelectItem>
+            </SelectContent>
+          </Select> 
         </div>
       </div>
 
