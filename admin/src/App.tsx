@@ -26,7 +26,7 @@ function App() {
       <div className={cn("flex flex-col flex-1 max-w-[--breakpoint-2xl] hoverEffect ", sidebarOpen ? "ml-64" : "ml-20")}>
         <Header/>
 
-        <main>
+        <main className=" ">
           <Outlet/>
         </main>
       </div>
