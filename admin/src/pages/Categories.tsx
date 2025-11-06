@@ -1,3 +1,4 @@
+import type { Z } from "node_modules/react-router/dist/development/context-DohQKLID.d.mts";
 import { useState } from "react";
 
 type Category = {
@@ -7,6 +8,8 @@ type Category = {
   categoryType: "Featured" | "Hot Categories" | "Top Categories";
   createdAt: string;
 };
+
+type FormData = Z.infer<typeof categorySchema>;
 
 const Categories = () => {
 

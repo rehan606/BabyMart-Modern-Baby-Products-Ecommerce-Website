@@ -36,3 +36,13 @@ export const brandSchema = z.object({
     name: z.string().min(2, {message: "Brand name must be at least 2 characters"}),
     image: z.string().optional(),
 });
+
+// CategorySchema
+export const categorySchema = z.object({
+    name: z.string().min(2, "Category name must be at least 2 characters"),
+    image: z.string().optional(),
+    categoryType: z.enum(["Featured", "Hot Categories", "Top Categories"] as const, {
+        message: "Please select a valid category type",
+    }),
+    // createdAt: z.string().optional(),
+});
