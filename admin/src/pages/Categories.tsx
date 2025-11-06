@@ -117,6 +117,12 @@ const Categories = () => {
     setPage(1);
   }
 
+  // Sort Order Change Handler
+  const handleSortOrderChange = (value: string) => {
+    setSortOrder(value as "asc" | "desc");
+    setPage(1);
+  };
+
   return (
     <div className="space-y-6 p-5">
       {/* Category Page Header  */}
@@ -172,6 +178,20 @@ const Categories = () => {
               <SelectItem value="Top Categories">Top Categories</SelectItem>
             </SelectContent>
           </Select> 
+
+          {/* Sort Category */}
+          <Select value={sortOrder} 
+            onValueChange={handleSortOrderChange}
+            >
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Sort by Date" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="desc">Newest First</SelectItem>
+              <SelectItem value="asc">Oldest First</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
