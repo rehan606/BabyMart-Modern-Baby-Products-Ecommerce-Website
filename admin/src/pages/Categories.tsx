@@ -1,5 +1,10 @@
-import type { Z } from "node_modules/react-router/dist/development/context-DohQKLID.d.mts";
+import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
+import { categorySchema } from "@/lib/validation";
+import useAuthStore from "@/store/useAuthStore";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import type z from "zod";
 
 type Category = {
   _id: string;
@@ -9,7 +14,7 @@ type Category = {
   createdAt: string;
 };
 
-type FormData = Z.infer<typeof categorySchema>;
+type FormData = z.infer<typeof categorySchema>;
 
 const Categories = () => {
 
@@ -27,6 +32,22 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [formLoading, setFormLoading] = useState(false);
 
+  const axiosPrivate = useAxiosPrivate();
+  const {checkIsAdmin} = useAuthStore();
+  const isAdmin = checkIsAdmin();
+
+
+  // Form handlers and data fetching logic would go here
+
+  // Form Add
+  const formAdd = useForm<FormData>({
+    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      name: "",
+      image: "",
+      categoryType: "Featured",
+    },
+  });
 
   return (
     <div>
