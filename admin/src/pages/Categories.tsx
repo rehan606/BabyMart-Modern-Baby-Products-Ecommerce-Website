@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem  } from "@/components/ui/select";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { categorySchema } from "@/lib/validation";
 import useAuthStore from "@/store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Package, RefreshCw, Search } from "lucide-react";
+import { Loader2, Package, Plus, RefreshCw, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -123,6 +126,11 @@ const Categories = () => {
     setPage(1);
   };
 
+  // Add Category Handler
+  // const handleAddCategory = async (data: FormData) => {
+  //   setFormLoading(true);
+  // };
+
   return (
     <div className="space-y-6 p-5">
       {/* Category Page Header  */}
@@ -192,11 +200,108 @@ const Categories = () => {
               <SelectItem value="asc">Oldest First</SelectItem>
             </SelectContent>
           </Select>
+
+          <Button onClick={() => setIsAddModalOpen(true)}>
+            <Plus className="h-4 w-4"/> Add Category
+          </Button>
         </div>
       </div>
 
+      {/* Add Category Modal */}
+      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Category</DialogTitle>
+            <DialogDescription>Create a new product category</DialogDescription>
+          </DialogHeader>
+          <Form {...formAdd}>
+            <form
+              // onSubmit={formAdd.handleSubmit(handleAddCategory)}
+              className="space-y-4"
+            >
+              {/* Name Field  */}
+              <FormField
+                control={formAdd.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel> Name </FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={formLoading} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Category Type Field */}
+              <FormField
+                control={formAdd.control}
+                name="categoryType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel> Category Type </FormLabel>
+                    <FormControl>
+                      <select 
+                        {...field} 
+                        disabled={formLoading} 
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                        <option value="" disabled>Select a Category type</option>
+                        <option value="Featured">Featured</option>
+                        <option value="Hot Categories">Hot Categories</option>
+                        <option value="Top Categories">Top Categories</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Image upload field */}
+              <FormField
+                control={formAdd.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category Image (Optional)</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        disabled={formLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsAddModalOpen(false)}
+                  disabled={formLoading}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={formLoading}>
+                  {formLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    "Create Brand"
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
     </div>
-  )
-}
+  );
+};
 
 export default Categories
